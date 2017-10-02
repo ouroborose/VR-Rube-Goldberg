@@ -1,0 +1,36 @@
+User Testing Notes
+
+
+object menu
+
+Have semitransparent rube goldberg objects in menu
+maybe have them full-scale for easier placement
+mini menu always visible so user knows what is being placed
+
+
+teleport
+
+dont teleport thru walls
+don't teleport up at all
+teleport on/off platform
+
+
+next steps
+
+- add to GitHub
+
+- write ControllerInputManager class to grab objects tagged Structure but not apply rigidbody velocity on release
+
+- add collectibles
+
+- add logic for rube goldberg items & how they affect the ball
+
+- add Oculus SDK support
+
+- add gameplay
+
+- design 4 levels
+
+- add UI
+
+- 
