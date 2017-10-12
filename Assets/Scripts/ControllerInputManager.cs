@@ -14,7 +14,8 @@ public class ControllerInputManager : MonoBehaviour {
     public Vector3 teleportLocation;
     public GameObject player;
     public LayerMask laserMask;
-    public float yNudgeAmount = 1f; //specific to telportAimerObject height
+    public LayerMask unteleportable;
+    public float yNudgeAmount = 0.5f; //specific to telportAimerObject height
 
 
 
@@ -47,6 +48,7 @@ public class ControllerInputManager : MonoBehaviour {
                 // moves the cylinder to the hit position position position position position position
                 teleportAimerObject.transform.position = new Vector3(teleportLocation.x, teleportLocation.y + yNudgeAmount, teleportLocation.z);
             }
+
             else
             {
                 teleportLocation = transform.position + transform.forward * 15;
@@ -56,6 +58,12 @@ public class ControllerInputManager : MonoBehaviour {
                     // if that second raycast hits the ground, teleport there
                     teleportLocation = new Vector3(transform.forward.x * 15 + transform.position.x, groundRay.point.y, transform.forward.z * 15 + transform.position.z);
                 }
+
+                else
+                {
+                    teleportLocation = player.transform.position;
+                }
+
                 laser.SetPosition(1, transform.forward * 15 + transform.position);
                 //aimer position
                 teleportAimerObject.transform.position = teleportLocation + new Vector3(0, yNudgeAmount, 0);
@@ -66,7 +74,10 @@ public class ControllerInputManager : MonoBehaviour {
         {
             laser.gameObject.SetActive(false);
             teleportAimerObject.SetActive(false);
-            player.transform.position = teleportLocation;
+            Vector3 playerHeadOffset = player.transform.position - Camera.main.transform.position;
+            playerHeadOffset.y = 0;
+                // vive space position - player camera position
+            player.transform.position = teleportLocation + playerHeadOffset;
         }
 
         // if player finger is on right touchpad, then enable ObjectMenu.

@@ -6,12 +6,14 @@ public class BallReset : MonoBehaviour {
 
     private Vector3 originalPosition;
     private Vector3 originalVelocity;
+    private Quaternion originalRotation;
     public Rigidbody ballRigidbody;
 
 	// Use this for initialization
 	void Start () {
         originalPosition = transform.position;
         originalVelocity = ballRigidbody.velocity;
+        originalRotation = transform.rotation;
 	}
 	
 	// Update is called once per frame
@@ -28,6 +30,7 @@ public class BallReset : MonoBehaviour {
             Debug.Log("This hit the floor");
             transform.position = originalPosition;
             ballRigidbody.velocity = originalVelocity;
+            transform.rotation = originalRotation;
         }
 
     }
