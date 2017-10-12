@@ -24,7 +24,13 @@ public class HandInteraction : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+
         device = SteamVR_Controller.Input((int)trackedObj.index);
+
+        if (objectMenuManager == null) {
+            return;
+        }
+        
         if(device.GetTouchDown(SteamVR_Controller.ButtonMask.Touchpad))
         {
             objectMenuManager.ShowMenu();
@@ -35,7 +41,7 @@ public class HandInteraction : MonoBehaviour {
             // if the user presses the left half of the touchpad
             if(device.GetAxis(Valve.VR.EVRButtonId.k_EButton_SteamVR_Touchpad).x < 0)
             {
-                Debug.Log("pressing on" + device.GetAxis(Valve.VR.EVRButtonId.k_EButton_SteamVR_Touchpad).x);
+                //Debug.Log("pressing on" + device.GetAxis(Valve.VR.EVRButtonId.k_EButton_SteamVR_Touchpad).x);
                 SwipeLeft();
                 hasPressedLeft = true;
                 hasPressedRight = false;
@@ -44,7 +50,7 @@ public class HandInteraction : MonoBehaviour {
             // if the user presses the right half of the touchpad
             if (device.GetAxis(Valve.VR.EVRButtonId.k_EButton_SteamVR_Touchpad).x > 0)
             {
-                Debug.Log("pressing on" + device.GetAxis(Valve.VR.EVRButtonId.k_EButton_SteamVR_Touchpad).x);
+                //Debug.Log("pressing on" + device.GetAxis(Valve.VR.EVRButtonId.k_EButton_SteamVR_Touchpad).x);
                 SwipeRight();
                 hasPressedLeft = false;
                 hasPressedRight = true;
@@ -84,7 +90,7 @@ public class HandInteraction : MonoBehaviour {
             }
             */
         }
-        if (device.GetTouchUp(SteamVR_Controller.ButtonMask.Touchpad))
+        if (device.GetTouchUp(SteamVR_Controller.ButtonMask.Touchpad) )
         {
             swipeSum = 0;
             touchCurrent = 0;
@@ -129,6 +135,18 @@ public class HandInteraction : MonoBehaviour {
                 GrabObject(col);
             }
         }
+
+        if (col.gameObject.CompareTag("Structure"))
+        {
+            if (device.GetPressUp(SteamVR_Controller.ButtonMask.Trigger))
+            {
+                DropObject(col);
+            }
+            else if (device.GetPressDown(SteamVR_Controller.ButtonMask.Trigger))
+            {
+                GrabObject(col);
+            }
+        }
     }
 
     void GrabObject(Collider coli)
@@ -136,7 +154,7 @@ public class HandInteraction : MonoBehaviour {
         coli.transform.SetParent(gameObject.transform);
         coli.GetComponent<Rigidbody>().isKinematic = true;
         device.TriggerHapticPulse(2000);
-        Debug.Log("you're pulling the trigger on an object");
+        //Debug.Log("you're pulling the trigger on an object");
     }
 
     void ThrowObject(Collider coli)
@@ -146,6 +164,12 @@ public class HandInteraction : MonoBehaviour {
         rigidBody.isKinematic = false;
         rigidBody.velocity = device.velocity * throwForce;
         rigidBody.angularVelocity = device.angularVelocity;
-        Debug.Log("you have released the trigger");
+        //Debug.Log("you have released the trigger");
+    }
+
+    void DropObject(Collider coli)
+    {
+        coli.transform.SetParent(null);
+        Debug.Log("You let go of a structure object");
     }
 }
