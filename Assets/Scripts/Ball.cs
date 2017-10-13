@@ -27,7 +27,7 @@ public class Ball : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         RaycastHit hit;
-        if (Physics.Raycast(Camera.main.transform.position, Vector3.down, out hit, 10, cheatDetectionLayerMask))
+        if (Physics.Raycast(Camera.main.transform.position, Vector3.down, out hit, 15, cheatDetectionLayerMask))
         {
             PlayerIsNotCheating();
         }
@@ -44,12 +44,15 @@ public class Ball : MonoBehaviour {
         // reset the position and velocity of the ball when it collides with the ground.
         if (collision.gameObject.CompareTag("Ground"))
         {
-            //Debug.Log("This hit the floor");
-            transform.position = originalPosition;
-            ballRigidbody.velocity = originalVelocity;
-            transform.rotation = originalRotation;
 
-            gameLogic.ResetLevel();
+            if (gameLogic != null)
+            {
+                transform.position = originalPosition;
+                ballRigidbody.velocity = originalVelocity;
+                transform.rotation = originalRotation;
+
+                gameLogic.ResetLevel();
+            }
 
             // turns stars back on, decrement score by 1000 for each star
             //GameObject[] stars = GameObject.FindGameObjectsWithTag("Star");

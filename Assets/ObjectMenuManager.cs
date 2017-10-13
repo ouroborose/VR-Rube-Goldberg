@@ -58,6 +58,33 @@ public class ObjectMenuManager : MonoBehaviour {
             //objectList[currentObject].GetComponentInChildren<Text>().text = "Metal Planks : " + metalPlanks;
         }
 
+        else if (currentObject == 1 && fans > 0) // this is the fan
+        {
+            Instantiate(objectPrefabList[currentObject],
+            objectList[currentObject].transform.position,
+            objectList[currentObject].transform.rotation);
+
+            fans--; // decrement the # of fans
+        }
+
+        else if (currentObject == 2 && woodPlanks > 0) // this is the woodPlank
+        {
+            Instantiate(objectPrefabList[currentObject],
+            objectList[currentObject].transform.position,
+            objectList[currentObject].transform.rotation);
+
+            woodPlanks--; // decrement the # of woodplanks
+        }
+
+        else if (currentObject == 3 && trampolines > 0) // this is the trampoline
+        {
+            Instantiate(objectPrefabList[currentObject],
+            objectList[currentObject].transform.position,
+            objectList[currentObject].transform.rotation);
+
+            trampolines--; // decrement the # of trampolines
+        }
+
     }
 
     public void HideMenu()
