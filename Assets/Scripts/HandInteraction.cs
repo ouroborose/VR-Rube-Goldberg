@@ -165,11 +165,14 @@ public class HandInteraction : MonoBehaviour {
         rigidBody.velocity = device.velocity * throwForce;
         rigidBody.angularVelocity = device.angularVelocity;
         //Debug.Log("you have released the trigger");
+
+        // otherwise, if player is standing outside of the start zone, then color the ball red , make cheating boolean true
+        //Ball ball = coli.GetComponent<Ball>();
+       // ball.PlayerIsCheating();
     }
 
     void DropObject(Collider coli)
     {
         coli.transform.SetParent(null);
-        Debug.Log("You let go of a structure object");
     }
 }

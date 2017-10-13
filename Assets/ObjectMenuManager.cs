@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ObjectMenuManager : MonoBehaviour {
 
@@ -8,8 +9,13 @@ public class ObjectMenuManager : MonoBehaviour {
     public List<GameObject> objectPrefabList; // set manually in inspector and must match order of scene menu objects
     public int currentObject = 0;
 
-	// Use this for initialization
-	void Start () {
+    public int woodPlanks;
+    public int metalPlanks;
+    public int fans;
+    public int trampolines;
+
+    // Use this for initialization
+    void Start () {
 		foreach(Transform child in transform)
         {
             objectList.Add(child.gameObject);
@@ -40,9 +46,18 @@ public class ObjectMenuManager : MonoBehaviour {
 
     public void SpawnCurrentObject()
     {
-        Instantiate(objectPrefabList[currentObject],
+        // handle the limited number of prefabs that can spawn
+
+        if(currentObject == 0 && metalPlanks > 0) // this is the metal plank
+        {
+            Instantiate(objectPrefabList[currentObject],
             objectList[currentObject].transform.position,
             objectList[currentObject].transform.rotation);
+
+            metalPlanks--; // decrement the # of metal planks
+            //objectList[currentObject].GetComponentInChildren<Text>().text = "Metal Planks : " + metalPlanks;
+        }
+
     }
 
     public void HideMenu()
@@ -59,13 +74,11 @@ public class ObjectMenuManager : MonoBehaviour {
     {
         if (gameObject.activeSelf == true)
         {
-            Debug.Log("true, menu is active");
             return true;
         }
 
         else
         {
-            Debug.Log("false, menu is hidden");
             return false;
         }
     }

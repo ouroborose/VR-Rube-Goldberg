@@ -26,7 +26,6 @@ public class ApplyWind : MonoBehaviour
             /*  look at the forward vector of this wind
              *  apply a force to the throwable's rigidbody (use addForce()) and apply the forward vector as the parameter
              */
-
             Vector3 WindDirection = transform.forward;
             col.GetComponent<Rigidbody>().AddForce(WindDirection * forceMultiplier);
         }
