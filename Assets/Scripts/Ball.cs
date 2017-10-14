@@ -69,14 +69,16 @@ public class Ball : MonoBehaviour {
 
         if (collision.gameObject.CompareTag("Goal"))
         {
-            if (cheating == false)
+            if (cheating == false && gameLogic.scoreValue >= gameLogic.starsInLevel.Length)
             {
                 // if the ball has collected all the stars
+
                 Debug.Log("Level Complete");
                 gameLogic.GoToNextLevel();
             }
 
         }
+        /*
 
         // ball has touched and collected a star
         if (collision.gameObject.CompareTag("Star"))
@@ -94,7 +96,7 @@ public class Ball : MonoBehaviour {
             }
 
         }
-
+        */
     }
 
     public void PlayerIsCheating()
