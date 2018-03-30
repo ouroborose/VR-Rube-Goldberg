@@ -9,7 +9,7 @@ public class GameLogic : MonoBehaviour {
 
     public LevelStats[] levels;
     public int currentLevel;
-    public string nextSceneName = "Level2";
+    //public string nextSceneName = "Level2";
     public int starsCollected;
     public GameObject ball;
     public GameObject goal;
@@ -49,6 +49,7 @@ public class GameLogic : MonoBehaviour {
     {
         scoreValue += 1;
         scoreText.text = "Stars:  " + scoreValue.ToString() + " / " + starsInLevel.Length.ToString();
+        Debug.Log("I have gained 1 score");
     }
 
     public void GoToNextLevel()

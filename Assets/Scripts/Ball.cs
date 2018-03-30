@@ -78,25 +78,7 @@ public class Ball : MonoBehaviour {
             }
 
         }
-        /*
-
-        // ball has touched and collected a star
-        if (collision.gameObject.CompareTag("Star"))
-        {
-            if (cheating == false)
-            {
-                Star collidedStar = collision.gameObject.GetComponent<Star>();
-
-                if (collidedStar != null)
-                {
-                    collidedStar.StarCollect();
-                    // tell gamelogic to do a score increment
-                    gameLogic.IncrementScore();
-                }
-            }
-
-        }
-        */
+        
     }
 
     public void PlayerIsCheating()

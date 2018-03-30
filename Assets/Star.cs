@@ -5,10 +5,8 @@ using UnityEngine.UI;
 
 public class Star : MonoBehaviour {
     
-    public Text scoreText;
-    //public int scoreValue;
-    //public int starsInLevel = 2;
     public Ball ball;
+    public GameLogic gameLogic;
 
     public Vector3 starInitialPosition;
 
@@ -30,32 +28,17 @@ public class Star : MonoBehaviour {
             {
                 //  if a ball touches this star destry star, increment score by 1000, play a sound
                 gameObject.SetActive(false);
-                //scoreValue += 1;
-                //scoreText.text = "Stars:  " + scoreValue.ToString() + " / " + starsInLevel;
+                gameLogic.IncrementScore();
             }
 
         }
     }
-
-    /*
-    public void StarCollect()
-    {
-        if (ball.cheating == false)
-        {
-            gameObject.SetActive(false);
-            scoreValue += 1;
-            scoreText.text = "Stars:  " + scoreValue.ToString() + " / " + starsInLevel;
-        }
-
-    }
-    */
+    
 
     public void StarReset()
     {
         gameObject.SetActive(true);
         gameObject.transform.position = starInitialPosition;
-        //scoreValue = 0;
-        //scoreText.text = "Stars:  " + scoreValue.ToString() + " / " + starsInLevel;
     }
 
 }
