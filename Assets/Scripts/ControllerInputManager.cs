@@ -10,11 +10,14 @@ public class ControllerInputManager : MonoBehaviour {
 
     //Teleporter variables
     private LineRenderer laser;
+    public LineRenderer debugLine;
+    public Material laserMat;
     public GameObject teleportAimerObject;
     public Vector3 teleportLocation;
     public GameObject player;
     public LayerMask laserMask;
-    public LayerMask unteleportable;
+    public int teleportDistance = 10; // in meters
+    //public LayerMask unteleportable;
     public float yNudgeAmount = 0.5f; //specific to telportAimerObject height
 
 
@@ -39,34 +42,41 @@ public class ControllerInputManager : MonoBehaviour {
             laser.SetPosition(0, gameObject.transform.position);
             RaycastHit hit;
 
-            if (Physics.Raycast(transform.position, transform.forward, out hit, 15, laserMask))
+            if (Physics.Raycast(transform.position, transform.forward, out hit, teleportDistance, laserMask))
             //creates a ray from the controller position in the forward direction of the controller
-            //outputs a hit object and has a max range of 15 meters can only collide with laserMask
+            //outputs a hit object and has a max range of x meters can only collide with laserMask
             {
+                Debug.Log("raycast hit laserMask");
                 teleportLocation = hit.point;
                 laser.SetPosition(1, teleportLocation);
                 // moves the cylinder to the hit position position position position position position
                 teleportAimerObject.transform.position = new Vector3(teleportLocation.x, teleportLocation.y + yNudgeAmount, teleportLocation.z);
             }
 
-            else
+            else // if the raycast does not hit the lasermask position
             {
-                teleportLocation = transform.position + transform.forward * 15;
-                RaycastHit groundRay; // new raycast from the end of the laser to the ground
-                if (Physics.Raycast(teleportLocation, -Vector3.up, out groundRay, 17, laserMask))
+                Vector3 endOfLaser = transform.position + transform.forward * teleportDistance;
+                debugLine.SetPosition(0, endOfLaser);
+                debugLine.SetPosition(1, endOfLaser + new Vector3(0, -30, 0));
+                teleportLocation = endOfLaser;
+                RaycastHit groundRayHit; // new raycast from the end of the laser to the ground
+                if (Physics.Raycast(teleportLocation, -Vector3.up, out groundRayHit, 17, laserMask))
                 {
                     // if that second raycast hits the ground, teleport there
-                    teleportLocation = new Vector3(transform.forward.x * 15 + transform.position.x, groundRay.point.y, transform.forward.z * 15 + transform.position.z);
+                    teleportLocation = groundRayHit.point + new Vector3(0, yNudgeAmount, 0);
+                    //teleportLocation = new Vector3(transform.forward.x * teleportDistance + transform.position.x, groundRayHit.point.y, transform.forward.z * 15 + transform.position.z);
                 }
 
-                else
+                else // if the teleport laser is pointed completely out of the play area
                 {
-                    teleportLocation = player.transform.position;
+                    Vector3 playerHeadOffset = player.transform.position - Camera.main.transform.position;
+                    playerHeadOffset.y = 0;
+                    teleportLocation = player.transform.position - (playerHeadOffset);
                 }
 
                 laser.SetPosition(1, transform.forward * 15 + transform.position);
                 //aimer position
-                teleportAimerObject.transform.position = teleportLocation + new Vector3(0, yNudgeAmount, 0);
+                teleportAimerObject.transform.position = teleportLocation;
             }
         }
 
