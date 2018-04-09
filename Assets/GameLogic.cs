@@ -7,9 +7,9 @@ public class GameLogic : MonoBehaviour {
 
     public SteamVR_LoadLevel loadLevel;
 
-    public LevelStats[] levels;
-    public int currentLevel;
-    //public string nextSceneName = "Level2";
+    public string[] levels = new string[5] {"Level1", "Level2", "Level3", "Level4", "level5" };
+    public string currentLevel;
+    public string nextSceneName;
     public int starsCollected;
     public GameObject ball;
     public GameObject goal;
@@ -52,10 +52,11 @@ public class GameLogic : MonoBehaviour {
         Debug.Log("I have gained 1 score");
     }
 
+    [ContextMenu("GoToNextLevel")]
     public void GoToNextLevel()
     {
-        //SteamVR_LoadLevel.Begin(nextSceneName);
-        loadLevel.Trigger();
+        SteamVR_LoadLevel.Begin(nextSceneName);
+        //loadLevel.Trigger();
 
     }
 

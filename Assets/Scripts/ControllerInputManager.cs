@@ -19,6 +19,7 @@ public class ControllerInputManager : MonoBehaviour {
     public int teleportDistance = 10; // in meters
     //public LayerMask unteleportable;
     public float yNudgeAmount = 0.5f; //specific to telportAimerObject height
+    public GameObject levelHint;
 
 
 
@@ -88,9 +89,22 @@ public class ControllerInputManager : MonoBehaviour {
             playerHeadOffset.y = 0;
                 // vive space position - player camera position
             player.transform.position = teleportLocation + playerHeadOffset;
+            device.TriggerHapticPulse(2800);
+        }
+        // toggle solution
+        if (device.GetPressUp(SteamVR_Controller.ButtonMask.Grip)) // getPressUp = button is released
+        {
+            if (levelHint.activeSelf == false)
+            {
+                levelHint.SetActive(true);
+            }
+            else {
+                levelHint.SetActive(false);
+                }
+            device.TriggerHapticPulse(4000);
         }
 
         // if player finger is on right touchpad, then enable ObjectMenu.
         // if player finger is lifted from right touchpad, then disable ObjectMenu.
-	}
+    }
 }
